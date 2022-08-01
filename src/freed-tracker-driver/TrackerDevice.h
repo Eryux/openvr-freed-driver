@@ -47,5 +47,8 @@ namespace freed_tracker_driver {
 
 			glm::vec3 m_position_offset;
 			glm::quat m_rotation_offset;
+
+			glm::vec3 m_universe_position;
+			float m_universe_yaw;
 	};
 }

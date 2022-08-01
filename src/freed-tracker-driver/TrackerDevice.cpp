@@ -39,14 +39,25 @@ vr::DriverPose_t TrackerDevice::GetPose()
 {
 	vr::DriverPose_t pose =  TrackerDevice::DefaultPose(true, m_freed != nullptr && m_freed->IsListening());
 
+	pose.vecWorldFromDriverTranslation[0] = m_universe_position.x;
+	pose.vecWorldFromDriverTranslation[1] = m_universe_position.y;
+	pose.vecWorldFromDriverTranslation[2] = m_universe_position.z;
+
+	glm::quat rotWorld = glm::quat(glm::vec3(0.0f, glm::radians(180.0f) - m_universe_yaw, 0.0f));
+	pose.qWorldFromDriverRotation.x = rotWorld.x;
+	pose.qWorldFromDriverRotation.y = rotWorld.y;
+	pose.qWorldFromDriverRotation.z = rotWorld.z;
+	pose.qWorldFromDriverRotation.w = rotWorld.w;
+
 	if (m_freed != nullptr)
 	{
 		FreedData_t currentPosition = m_freed->GetData();
 
 		// Position
-		pose.vecPosition[0] = currentPosition.position.x + m_position_offset.x;
-		pose.vecPosition[1] = currentPosition.position.z + m_position_offset.y;
-		pose.vecPosition[2] = -currentPosition.position.y + m_position_offset.z;
+		glm::vec3 position = glm::vec3(currentPosition.position.x, currentPosition.position.z, -currentPosition.position.y) + (m_position_offset * m_rotation_offset);
+		pose.vecPosition[0] = position.x;
+		pose.vecPosition[1] = position.y;
+		pose.vecPosition[2] = position.z;
 
 		// Rotation
 		// In Free-d, pitch and roll are dependent from yaw
@@ -76,7 +87,7 @@ vr::EVRInitError TrackerDevice::Activate(uint32_t unObjectId)
 	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_ModelNumber_String, m_serialNumber.c_str());
 	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_RenderModelName_String, m_modelNumber.c_str());
 	vr::VRProperties()->SetUint64Property(m_propertyContainer, vr::Prop_CurrentUniverseId_Uint64, 2);
-	vr::VRProperties()->SetBoolProperty(m_propertyContainer,vr::Prop_IsOnDesktop_Bool, false);
+	vr::VRProperties()->SetBoolProperty(m_propertyContainer, vr::Prop_IsOnDesktop_Bool, false);
 	vr::VRProperties()->SetInt32Property(m_propertyContainer, vr::Prop_ControllerRoleHint_Int32, vr::ETrackedControllerRole::TrackedControllerRole_OptOut);
 	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_RenderModelName_String, "vr_tracker_vive_3_0");
 	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_InputProfilePath_String, "{freed}/input/freed_tracker_bindings.json");
@@ -89,11 +100,46 @@ vr::EVRInitError TrackerDevice::Activate(uint32_t unObjectId)
 	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceStandby_String, "{freed}/icons/tracker_status_off.png");
 	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceAlertLow_String, "{freed}/icons/tracker_status_ready_low.png");
 
-
 	// Retrieve driver settings
 	vr::EVRSettingsError serr = vr::EVRSettingsError::VRSettingsError_None;
 
-	// Position offset
+	// universe
+	bool useSteamVRUniverse = vr::VRSettings()->GetBool("driver_freed", "use_steamvr_universe", &serr);
+	if (serr != vr::EVRSettingsError::VRSettingsError_None) {
+		useSteamVRUniverse = true;
+	}
+
+	if (useSteamVRUniverse)
+	{
+		// TODO
+	}
+	else
+	{
+		// universe position
+		float universe_x = vr::VRSettings()->GetFloat("driver_freed", "universe_x", &serr);
+		if (serr != vr::EVRSettingsError::VRSettingsError_None) {
+			universe_x = 0.0f;
+		} m_universe_position.x = -universe_x;
+
+		float universe_y = vr::VRSettings()->GetFloat("driver_freed", "universe_y", &serr);
+		if (serr != vr::EVRSettingsError::VRSettingsError_None) {
+			universe_y = 0.0f;
+		} m_universe_position.y = -universe_y;
+
+		float universe_z = vr::VRSettings()->GetFloat("driver_freed", "universe_z", &serr);
+		if (serr != vr::EVRSettingsError::VRSettingsError_None) {
+			universe_z = 0.0f;
+		} m_universe_position.z = -universe_z;
+
+		// universe yaw
+		float universe_yaw = vr::VRSettings()->GetFloat("driver_freed", "universe_yaw", &serr);
+		if (serr != vr::EVRSettingsError::VRSettingsError_None) {
+			universe_yaw = 0.0f;
+		} m_universe_yaw = -universe_yaw;
+	}
+
+
+	// offset position
 	float offset_x = vr::VRSettings()->GetFloat("driver_freed", "offset_x", &serr);
 	if (serr != vr::EVRSettingsError::VRSettingsError_None) {
 		offset_x = 0.0f;
@@ -110,7 +156,7 @@ vr::EVRInitError TrackerDevice::Activate(uint32_t unObjectId)
 	} m_position_offset.z = offset_z;
 
 
-	// Rotation offset
+	// offset rotation
 	float offset_pitch = vr::VRSettings()->GetFloat("driver_freed", "offset_pitch", &serr);
 	if (serr != vr::EVRSettingsError::VRSettingsError_None) {
 		offset_pitch = 0.0f;
@@ -126,22 +172,10 @@ vr::EVRInitError TrackerDevice::Activate(uint32_t unObjectId)
 		offset_roll = 0.0f;
 	}
 
-	m_rotation_offset = glm::quat(glm::radians(glm::vec3(offset_pitch, offset_yaw, offset_roll)));
+	m_rotation_offset = glm::quat(glm::vec3(offset_pitch, offset_yaw, offset_roll));
 
 
-	// Universe
-	bool useSteamVRUniverse = vr::VRSettings()->GetBool("driver_freed", "use_steamvr_universe", &serr);
-	if (serr != vr::EVRSettingsError::VRSettingsError_None) {
-		useSteamVRUniverse = true;
-	}
-
-	if (useSteamVRUniverse)
-	{
-		// TODO
-	}
-
-
-	// Free-d settings
+	// free-d
 	char freedAddr[128] { 0 };
 	vr::VRSettings()->GetString("driver_freed", "freed_address", freedAddr, 128, &serr);
 	if (serr != vr::EVRSettingsError::VRSettingsError_None) {
@@ -171,7 +205,7 @@ vr::EVRInitError TrackerDevice::Activate(uint32_t unObjectId)
 	} m_freed->SetAngleShift(freedAngleShift);
 
 
-	// Start Free-d interface
+	// start Free-d interface
 	bool r = m_freed->StartListening(freedAddr, freedPort);
 	if (!r) {
 		Log("Unable to listen interface, please check listen address and port.");
