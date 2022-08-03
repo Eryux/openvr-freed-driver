@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "freed-tracker-driver", "freed-tracker-driver\freed-tracker-driver.vcxproj", "{DA77BAB7-D08F-4590-A77D-61EC1F191064}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "freed-tracker-tool", "freed-tracker-tool\freed-tracker-tool.vcxproj", "{DC29F19B-13D4-4FEB-BDA3-C8BC974E01F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{DA77BAB7-D08F-4590-A77D-61EC1F191064}.Release|x64.Build.0 = Release|x64
 		{DA77BAB7-D08F-4590-A77D-61EC1F191064}.Release|x86.ActiveCfg = Release|Win32
 		{DA77BAB7-D08F-4590-A77D-61EC1F191064}.Release|x86.Build.0 = Release|Win32
+		{DC29F19B-13D4-4FEB-BDA3-C8BC974E01F4}.Debug|x64.ActiveCfg = Debug|x64
+		{DC29F19B-13D4-4FEB-BDA3-C8BC974E01F4}.Debug|x64.Build.0 = Debug|x64
+		{DC29F19B-13D4-4FEB-BDA3-C8BC974E01F4}.Debug|x86.ActiveCfg = Debug|Win32
+		{DC29F19B-13D4-4FEB-BDA3-C8BC974E01F4}.Debug|x86.Build.0 = Debug|Win32
+		{DC29F19B-13D4-4FEB-BDA3-C8BC974E01F4}.Release|x64.ActiveCfg = Release|x64
+		{DC29F19B-13D4-4FEB-BDA3-C8BC974E01F4}.Release|x64.Build.0 = Release|x64
+		{DC29F19B-13D4-4FEB-BDA3-C8BC974E01F4}.Release|x86.ActiveCfg = Release|Win32
+		{DC29F19B-13D4-4FEB-BDA3-C8BC974E01F4}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

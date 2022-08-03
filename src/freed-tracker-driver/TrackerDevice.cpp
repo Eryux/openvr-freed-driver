@@ -83,6 +83,8 @@ vr::EVRInitError TrackerDevice::Activate(uint32_t unObjectId)
 	m_deviceIndex = unObjectId;
 	m_propertyContainer = vr::VRProperties()->TrackedDeviceToPropertyContainer(m_deviceIndex);
 
+	
+
 	// Set device settings
 	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_ModelNumber_String, m_serialNumber.c_str());
 	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_RenderModelName_String, m_modelNumber.c_str());
