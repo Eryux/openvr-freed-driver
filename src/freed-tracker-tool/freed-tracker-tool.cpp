@@ -181,7 +181,7 @@ void action_calibrate_steamvr()
     std::string universe_id_str = std::to_string(universe_id);
 
 
-    // Open chaperone config file and file calibration setting corresponding to HMD universe
+    // Open chaperone config file and search for calibration setting corresponding to HMD universe
     std::filesystem::path steam_chaperone_file = std::filesystem::path(steam_config_dir).append("chaperone_info.vrchap");
     
     json chaperone_setting = read_config_file(steam_chaperone_file.generic_string().c_str());
@@ -191,7 +191,6 @@ void action_calibrate_steamvr()
         std::cout << "Unable to open chaperone_info.vrchap in " << steam_config_dir << "." << std::endl;
         return;
     }
-
 
     json chaperone_universe = nullptr;
     for (auto universe : chaperone_setting["universes"])
@@ -210,6 +209,7 @@ void action_calibrate_steamvr()
     }
 
 
+    // Apply settings
     setting["driver_freed"]["universe_x"] = chaperone_universe["standing"]["translation"][0];
     setting["driver_freed"]["universe_y"] = chaperone_universe["standing"]["translation"][1];
     setting["driver_freed"]["universe_z"] = chaperone_universe["standing"]["translation"][2];
@@ -234,6 +234,7 @@ struct vrdevice_t
 
 void action_calibrate_custom()
 {
+    // Fetch and list all availables tracked devices
     std::vector<vrdevice_t> vr_devices;
 
     uint16_t device_index = 0;
@@ -286,7 +287,7 @@ void action_calibrate_custom()
     std::cout << "Press ENTER when it is done." << std::endl;
 
     
-    // Retrieve device position
+    // Retrieve raw device's position
     vr::TrackedDevicePose_t device_pose = vr::TrackedDevicePose_t();
     vr::VREvent_t device_event = vr::VREvent_t();
 
@@ -322,10 +323,8 @@ void action_calibrate_custom()
     glm::decompose(pose_mat, scale, rotation, translation, skew, perspective);
     glm::vec3 rotation_euler = glm::eulerAngles(rotation);
 
-    //std::cout << translation.x << " " << translation.y << " " << translation.z << std::endl;
-    //std::cout << glm::degrees(rotation_euler.x) << " " << glm::degrees(rotation_euler.y - glm::radians(180.0f)) << " " << glm::degrees(rotation_euler.z) << std::endl;
-
-    // Save device position as universe
+    
+    // Save device's position as universe
     std::filesystem::path setting_file = getexepath().remove_filename().append(_setting_file);
 
     json setting = read_config_file(setting_file.generic_string().c_str());
@@ -351,6 +350,7 @@ void action_calibrate_custom()
 
 int main()
 {
+    // OpenVR init
     vr::HmdError err_vr = vr::HmdError::VRInitError_None;
 
     _vr = vr::VR_Init(&err_vr, vr::EVRApplicationType::VRApplication_Background);

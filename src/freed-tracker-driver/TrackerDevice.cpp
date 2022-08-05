@@ -83,8 +83,6 @@ vr::EVRInitError TrackerDevice::Activate(uint32_t unObjectId)
 	m_deviceIndex = unObjectId;
 	m_propertyContainer = vr::VRProperties()->TrackedDeviceToPropertyContainer(m_deviceIndex);
 
-	
-
 	// Set device settings
 	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_ModelNumber_String, m_serialNumber.c_str());
 	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_RenderModelName_String, m_modelNumber.c_str());
@@ -105,40 +103,28 @@ vr::EVRInitError TrackerDevice::Activate(uint32_t unObjectId)
 	// Retrieve driver settings
 	vr::EVRSettingsError serr = vr::EVRSettingsError::VRSettingsError_None;
 
-	// universe
-	bool useSteamVRUniverse = vr::VRSettings()->GetBool("driver_freed", "use_steamvr_universe", &serr);
+
+	// universe position
+	float universe_x = vr::VRSettings()->GetFloat("driver_freed", "universe_x", &serr);
 	if (serr != vr::EVRSettingsError::VRSettingsError_None) {
-		useSteamVRUniverse = true;
-	}
+		universe_x = 0.0f;
+	} m_universe_position.x = -universe_x;
 
-	if (useSteamVRUniverse)
-	{
-		// TODO
-	}
-	else
-	{
-		// universe position
-		float universe_x = vr::VRSettings()->GetFloat("driver_freed", "universe_x", &serr);
-		if (serr != vr::EVRSettingsError::VRSettingsError_None) {
-			universe_x = 0.0f;
-		} m_universe_position.x = -universe_x;
+	float universe_y = vr::VRSettings()->GetFloat("driver_freed", "universe_y", &serr);
+	if (serr != vr::EVRSettingsError::VRSettingsError_None) {
+		universe_y = 0.0f;
+	} m_universe_position.y = -universe_y;
 
-		float universe_y = vr::VRSettings()->GetFloat("driver_freed", "universe_y", &serr);
-		if (serr != vr::EVRSettingsError::VRSettingsError_None) {
-			universe_y = 0.0f;
-		} m_universe_position.y = -universe_y;
+	float universe_z = vr::VRSettings()->GetFloat("driver_freed", "universe_z", &serr);
+	if (serr != vr::EVRSettingsError::VRSettingsError_None) {
+		universe_z = 0.0f;
+	} m_universe_position.z = -universe_z;
 
-		float universe_z = vr::VRSettings()->GetFloat("driver_freed", "universe_z", &serr);
-		if (serr != vr::EVRSettingsError::VRSettingsError_None) {
-			universe_z = 0.0f;
-		} m_universe_position.z = -universe_z;
-
-		// universe yaw
-		float universe_yaw = vr::VRSettings()->GetFloat("driver_freed", "universe_yaw", &serr);
-		if (serr != vr::EVRSettingsError::VRSettingsError_None) {
-			universe_yaw = 0.0f;
-		} m_universe_yaw = -universe_yaw;
-	}
+	// universe yaw
+	float universe_yaw = vr::VRSettings()->GetFloat("driver_freed", "universe_yaw", &serr);
+	if (serr != vr::EVRSettingsError::VRSettingsError_None) {
+		universe_yaw = 0.0f;
+	} m_universe_yaw = -universe_yaw;
 
 
 	// offset position
