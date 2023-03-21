@@ -8,7 +8,11 @@
 using namespace freed_tracker_driver;
 
 
-Freed::Freed() { }
+Freed::Freed()
+{
+	m_udpSocket = SOCKET();
+	m_lastRecvData = FreedData_t();
+}
 
 Freed::~Freed()
 {

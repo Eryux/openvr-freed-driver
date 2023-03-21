@@ -6,13 +6,6 @@
     "driver_name": "Freed Virtual Tracker",
     "input_bindingui_mode": "single_device",
     "should_show_binding_errors": true,
-    "input_bindingui_left": {
-        "transform": "scale(-1,1)",
-        "image": "{freed}/icons/tracker.svg"
-    },
-    "input_bindingui_right": {
-        "image": "{freed}/icons/tracker.svg"
-    },
     "input_source": {
         "/pose/raw": {
             "type": "pose",

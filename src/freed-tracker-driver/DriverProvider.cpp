@@ -11,7 +11,7 @@ vr::EVRInitError DriverProvider::Init(vr::IVRDriverContext* pDriverContext)
 
 	InitLog(vr::VRDriverLog());
 
-	m_trackerDevice = new TrackerDevice("FR33-D", "Freed Virtual Tracker");
+	m_trackerDevice = new TrackerDevice("FR33D", "Freed Virtual Tracker");
 	vr::VRServerDriverHost()->TrackedDeviceAdded(m_trackerDevice->GetSerialNumber().c_str(), vr::TrackedDeviceClass_GenericTracker, m_trackerDevice);
 
 	return vr::EVRInitError::VRInitError_None;

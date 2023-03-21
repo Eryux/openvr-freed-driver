@@ -347,3 +347,6 @@ healthchecksdb
 
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
+
+# Remove SteamVR auto-gen icons
+driver/freed/resources/icons/freed_*.*.png

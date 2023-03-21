@@ -1,0 +1,8 @@
+newmtl blinn1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.14 0.14 0.14
+Tf 0.66 0.66 0.66
+map_Kd freedcamera_txt.jpg
+Ni 0.65
+Ks 0.00 0.00 0.00

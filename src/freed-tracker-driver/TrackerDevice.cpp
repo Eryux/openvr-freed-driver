@@ -89,16 +89,16 @@ vr::EVRInitError TrackerDevice::Activate(uint32_t unObjectId)
 	vr::VRProperties()->SetUint64Property(m_propertyContainer, vr::Prop_CurrentUniverseId_Uint64, 2);
 	vr::VRProperties()->SetBoolProperty(m_propertyContainer, vr::Prop_IsOnDesktop_Bool, false);
 	vr::VRProperties()->SetInt32Property(m_propertyContainer, vr::Prop_ControllerRoleHint_Int32, vr::ETrackedControllerRole::TrackedControllerRole_OptOut);
-	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_RenderModelName_String, "vr_tracker_vive_3_0");
+	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_RenderModelName_String, "{freed}/rendermodels/freedcamera");
 	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_InputProfilePath_String, "{freed}/input/freed_tracker_bindings.json");
-	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceReady_String, "{freed}/icons/tracker_status_ready.png");
-	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceOff_String, "{freed}/icons/tracker_status_off.png");
-	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceSearching_String, "{freed}/icons/tracker_status_off.png");
-	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceSearchingAlert_String, "{freed}/icons/tracker_status_error.png");
-	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceReadyAlert_String, "{freed}/icons/tracker_status_error.png");
-	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceNotReady_String, "{freed}/icons/tracker_status_off.png");
-	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceStandby_String, "{freed}/icons/tracker_status_off.png");
-	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceAlertLow_String, "{freed}/icons/tracker_status_ready_low.png");
+	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceReady_String, "{freed}/icons/freed_status_ready.png");
+	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceOff_String, "{freed}/icons/freed_status_off.png");
+	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceSearching_String, "{freed}/icons/freed_status_off.png");
+	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceSearchingAlert_String, "{freed}/icons/freed_status_error.png");
+	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceReadyAlert_String, "{freed}/icons/freed_status_error.png");
+	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceNotReady_String, "{freed}/icons/freed_status_off.png");
+	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceStandby_String, "{freed}/icons/freed_status_standby.png");
+	vr::VRProperties()->SetStringProperty(m_propertyContainer, vr::Prop_NamedIconPathDeviceAlertLow_String, "{freed}/icons/freed_status_error.png");
 
 	// Retrieve driver settings
 	vr::EVRSettingsError serr = vr::EVRSettingsError::VRSettingsError_None;
