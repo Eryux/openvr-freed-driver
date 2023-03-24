@@ -43,6 +43,7 @@ vr::DriverPose_t TrackerDevice::GetPose()
 	pose.vecWorldFromDriverTranslation[1] = m_universe_position.y;
 	pose.vecWorldFromDriverTranslation[2] = m_universe_position.z;
 
+
 	glm::quat rotWorld = glm::quat(glm::vec3(0.0f, glm::radians(180.0f) - m_universe_yaw, 0.0f));
 	pose.qWorldFromDriverRotation.x = rotWorld.x;
 	pose.qWorldFromDriverRotation.y = rotWorld.y;
@@ -167,13 +168,13 @@ vr::EVRInitError TrackerDevice::Activate(uint32_t unObjectId)
 	char freedAddr[128] { 0 };
 	vr::VRSettings()->GetString("driver_freed", "freed_address", freedAddr, 128, &serr);
 	if (serr != vr::EVRSettingsError::VRSettingsError_None) {
-		Log("Missing setting freed_address");
+		Log("Missing freed_address in driver setting");
 		return vr::EVRInitError::VRInitError_Init_SettingsInitFailed;
 	}
 
 	int freedPort = vr::VRSettings()->GetInt32("driver_freed", "freed_port", &serr);
 	if (serr != vr::EVRSettingsError::VRSettingsError_None) {
-		Log("Missing setting freed_port");
+		Log("Missing freed_port in driver setting");
 		return vr::EVRInitError::VRInitError_Init_SettingsInitFailed;
 	}
 
@@ -196,7 +197,7 @@ vr::EVRInitError TrackerDevice::Activate(uint32_t unObjectId)
 	// start Free-d interface
 	bool r = m_freed->StartListening(freedAddr, freedPort);
 	if (!r) {
-		Log("Unable to listen interface, please check listen address and port.");
+		Log("Unable to listen interface, please check your listen address and port.");
 		return vr::EVRInitError::VRInitError_Init_SettingsInitFailed;
 	}
 

@@ -114,7 +114,7 @@ void action_configure_freed()
 
         if (write_config_file(&setting, setting_file.generic_string().c_str()))
         {
-            std::cout << "Configuration saved. Please restart SteamVR if its running." << std::endl << std::endl;
+            std::cout << "Configuration saved. Please restart SteamVR." << std::endl << std::endl;
             return;
         }
     }
@@ -270,7 +270,7 @@ void action_calibrate_custom()
         std::cout << i << ". " << vr_devices[i].name << " (" << vr_devices[i].index << ") [" << vr_devices[i].serial << "]" << std::endl;
     }
 
-    std::cout << std::endl << "Which tracked device you want to use for calibration? Choice: ";
+    std::cout << std::endl << "Which tracked device do you want to use for calibration? Choice: ";
 
     int device_list_index = 0;
     std::cin >> device_list_index;
@@ -283,7 +283,7 @@ void action_calibrate_custom()
     }
 
 
-    std::cout << "Place your device on the ground where you want the origin of your universe." << std::endl;
+    std::cout << "Place your device on the ground where at the origin of your universe." << std::endl;
     std::cout << "Press ENTER when it is done." << std::endl;
 
     
