@@ -1,6 +1,6 @@
 {
     "driver_freed": {
-        "freed_address": "192.168.1.24",
+        "freed_address": "127.0.0.1",
         "freed_id": 1,
         "freed_port": 1337,
         "freed_shiftangle": 32768.0,
@@ -11,7 +11,7 @@
         "offset_y": 0.0,
         "offset_yaw": 0.0,
         "offset_z": 0.0,
-        "steam_config_path": "F:\\Program Files (x86)\\Steam\\config",
+        "steam_config_path": "C:\\Program Files (x86)\\Steam\\config",
         "universe_x": 0,
         "universe_y": 0,
         "universe_yaw": 0,
